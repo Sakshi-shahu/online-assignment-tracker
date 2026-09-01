@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Grade Submission{% endblock %}
+{% block content %}
+<a href="{% url 'teacher_assignment_detail' submission.assignment.id %}" class="text-decoration-none">← Back to Submissions</a>
+<div class="form-card mx-auto mt-3">
+  <h2 class="fw-bold">Grade Submission</h2>
+  <p class="text-muted">Student: <b>{{ submission.student.username }}</b></p>
+  <p>Assignment: <b>{{ submission.assignment.title }}</b></p>
+  <p><a href="{{ submission.file.url }}" target="_blank">Open submitted file</a></p>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="mb-3">
+        <label class="form-label">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<div class="text-danger small">{{ field.errors|striptags }}</div>{% endif %}
+      </div>
+    {% endfor %}
+    <button class="btn btn-success">Save Grade & Feedback</button>
+  </form>
+</div>
+{% endblock %}

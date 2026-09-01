@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Home | Assignment Tracker{% endblock %}
+{% block content %}
+<div class="hero p-5 rounded-4 shadow-sm">
+  <div class="row align-items-center">
+    <div class="col-lg-7">
+      <span class="badge bg-light text-dark mb-3">Django Project</span>
+      <h1 class="display-5 fw-bold">Online Assignment Tracker</h1>
+      <p class="lead">Students submit assignments. Teachers review, grade, and give feedback — all in one place.</p>
+      <div class="d-flex gap-2 flex-wrap mt-4">
+        <a href="{% url 'register' %}" class="btn btn-light btn-lg">Get Started</a>
+        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">Login</a>
+      </div>
+    </div>
+    <div class="col-lg-5 mt-4 mt-lg-0">
+      <div class="hero-card">
+        <div class="mini-card"><b>Teacher</b><span>Create & Grade</span></div>
+        <div class="mini-card"><b>Student</b><span>Submit & Track</span></div>
+        <div class="mini-card"><b>Feedback</b><span>Improve Performance</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Students | {{ assignment.title }}{% endblock %}
+{% block content %}
+<a href="{% url 'teacher_dashboard' %}" class="text-decoration-none">← Back to Dashboard</a>
+<div class="d-flex justify-content-between align-items-center mt-3 mb-4 flex-wrap gap-2">
+  <div><h2 class="fw-bold mb-1">{{ assignment.title }}</h2><p class="text-muted mb-0">{{ assignment.subject_display }} • Due {{ assignment.due_date }}</p></div>
+  <div><span class="badge text-bg-primary">{{ assignment.target_course_display }}</span> <span class="badge text-bg-secondary">{{ assignment.target_batch_display }}</span></div>
+</div>
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-4">
+    {% if submissions %}
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead><tr><th>Student</th><th>Course</th><th>Batch</th><th>Submitted</th><th>File</th><th>Status</th><th>Marks</th><th>Action</th></tr></thead>
+        <tbody>
+        {% for s in submissions %}
+        <tr>
+          <td><b>{{ s.student.username }}</b><br><small class="text-muted">{{ s.student.email }}</small></td>
+          <td>{{ s.student.profile.get_course_display }}</td>
+          <td>{{ s.student.profile.batch }}</td>
+          <td>{% if s.submitted_at %}{{ s.submitted_at|date:"d M Y, h:i A" }}{% else %}-{% endif %}</td>
+          <td>{% if s.file %}<a href="{{ s.file.url }}" target="_blank">Open file</a>{% else %}<span class="text-muted">Not submitted</span>{% endif %}</td>
+          <td>{% if s.status == "GRADED" %}<span class="badge text-bg-success">Graded</span>{% elif s.submitted_at %}<span class="badge text-bg-warning">Pending</span>{% else %}<span class="badge text-bg-secondary">Not Submitted</span>{% endif %}</td>
+          <td>{% if s.marks != None %}{{ s.marks }}/100{% else %}-{% endif %}</td>
+          <td>{% if s.file %}<a href="{% url 'grade_submission' s.id %}" class="btn btn-sm btn-primary">{% if s.status == 'GRADED' %}Edit Grade{% else %}Grade{% endif %}</a>{% else %}<span class="text-muted small">Waiting</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}<p class="text-muted mb-0">No students currently match this course and batch.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

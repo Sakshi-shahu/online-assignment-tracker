@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ assignment.title }}{% endblock %}
+{% block content %}
+<a href="{% url 'student_dashboard' %}" class="text-decoration-none">← Back to Dashboard</a>
+<div class="card border-0 shadow-sm mt-3">
+  <div class="card-body p-4">
+    <span class="badge bg-primary-subtle text-primary mb-2">{{ assignment.subject_display }}</span>
+    <h2 class="fw-bold">{{ assignment.title }}</h2>
+    <p class="text-muted">{{ assignment.description }}</p>
+    <div class="alert alert-light border">
+      <b>Course:</b> {{ assignment.target_course_display }} &nbsp; | &nbsp;
+      <b>Batch:</b> {{ assignment.target_batch_display }} &nbsp; | &nbsp;
+      <b>Due:</b> {{ assignment.due_date }} &nbsp; | &nbsp;
+      <b>Teacher:</b> {{ assignment.teacher.username }}
+    </div>
+
+    {% if submission and submission.submitted_at %}
+      <div class="alert {% if submission.status == 'GRADED' %}alert-success{% else %}alert-warning{% endif %}">
+        <b>Status:</b> {{ submission.get_status_display }}
+        {% if submission.marks != None %}<br><b>Marks:</b> {{ submission.marks }}/100{% endif %}
+        {% if submission.feedback %}<br><b>Feedback:</b> {{ submission.feedback }}{% endif %}
+      </div>
+    {% endif %}
+
+    <h5 class="fw-bold mt-4">Submit your file</h5>
+    <form method="post" action="{% url 'submit_assignment' assignment.id %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.file }}
+      {% if form.file.errors %}<div class="text-danger small mt-1">{{ form.file.errors|striptags }}</div>{% endif %}
+      <button class="btn btn-primary mt-3">{% if submission and submission.submitted_at %}Replace Submission{% else %}Submit Assignment{% endif %}</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

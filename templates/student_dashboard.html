@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load tracker_tags %}
+{% block title %}Student Dashboard{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+  <div><h2 class="fw-bold mb-1">Student Dashboard</h2><p class="text-muted mb-0">Hello, {{ user.username }} 👋</p></div>
+  <div class="text-end"><span class="badge text-bg-primary">{{ profile.get_course_display }}</span> <span class="badge text-bg-secondary">Batch {{ profile.batch }}</span></div>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-md-4"><div class="stat-card"><span>My Assignments</span><strong>{{ assignments|length }}</strong></div></div>
+  <div class="col-md-4"><div class="stat-card"><span>Your Submissions</span><strong>{{ submissions|length }}</strong></div></div>
+</div>
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-4">
+    <h5 class="fw-bold mb-3">Assignments for My Course & Batch</h5>
+    {% if assignments %}
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead><tr><th>Assignment</th><th>Subject</th><th>Teacher</th><th>Due Date</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+        {% for a in assignments %}
+          {% with s=submissions|get_item:a.id %}
+          <tr>
+            <td><b>{{ a.title }}</b><br><small class="text-muted">{{ a.description|truncatechars:70 }}</small></td>
+            <td>{{ a.subject_display }}</td>
+            <td>{{ a.teacher.username }}</td>
+            <td>{{ a.due_date }}</td>
+            <td>{% if s and s.status == "GRADED" %}<span class="badge text-bg-success">Graded</span>{% elif s and s.submitted_at %}<span class="badge text-bg-warning">Submitted / Pending</span>{% else %}<span class="badge text-bg-secondary">Not Submitted</span>{% endif %}</td>
+            <td><a class="btn btn-sm btn-outline-primary" href="{% url 'assignment_detail' a.id %}">View</a></td>
+          </tr>
+          {% endwith %}
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}<p class="text-muted mb-0">No assignments for your course and batch yet.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

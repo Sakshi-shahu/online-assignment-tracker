@@ -1,0 +1,65 @@
+body {
+  background: #f5f7fb;
+  color: #202636;
+}
+.app-nav {
+  background: #17182f;
+}
+.hero {
+  background: linear-gradient(135deg, #17182f, #3c3f80);
+  color: white;
+  min-height: 430px;
+  display: flex;
+  align-items: center;
+}
+.hero-card {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 22px;
+  padding: 22px;
+}
+.mini-card {
+  background: white;
+  color: #202636;
+  border-radius: 14px;
+  padding: 18px;
+  margin: 12px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.auth-card, .form-card {
+  max-width: 520px;
+  background: white;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(20,30,60,.08);
+}
+.form-control, select, textarea, input[type=file] {
+  border-radius: 10px;
+  padding: 11px 13px;
+  border: 1px solid #dfe3eb;
+  width: 100%;
+}
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 6px 22px rgba(20,30,60,.06);
+}
+.stat-card span {
+  display: block;
+  color: #697386;
+  font-size: .9rem;
+}
+.stat-card strong {
+  font-size: 2rem;
+}
+.assignment-card {
+  border: 1px solid #e7eaf0;
+  border-radius: 15px;
+  padding: 20px;
+  background: #fff;
+}
+.table > :not(caption) > * > * {
+  padding: 14px 10px;
+}

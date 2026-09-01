@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="auth-card mx-auto">
+  <h2 class="fw-bold mb-1">Create account</h2>
+  <p class="text-muted mb-4">Register as a Teacher or Student.</p>
+  <form method="post" id="registerForm">
+    {% csrf_token %}
+    <div class="mb-3"><label class="form-label">Username</label>{{ form.username }}{% if form.username.errors %}<div class="text-danger small mt-1">{{ form.username.errors|striptags }}</div>{% endif %}</div>
+    <div class="mb-3"><label class="form-label">Email</label>{{ form.email }}{% if form.email.errors %}<div class="text-danger small mt-1">{{ form.email.errors|striptags }}</div>{% endif %}</div>
+    <div class="mb-3"><label class="form-label">Password</label>{{ form.password }}{% if form.password.errors %}<div class="text-danger small mt-1">{{ form.password.errors|striptags }}</div>{% endif %}</div>
+    <div class="mb-3"><label class="form-label">Role</label>{{ form.role }}{% if form.role.errors %}<div class="text-danger small mt-1">{{ form.role.errors|striptags }}</div>{% endif %}</div>
+
+    <div id="teacherFields" class="role-section">
+      <div class="mb-3"><label class="form-label">Teacher Subject</label>{{ form.subject }}<div class="form-text">This subject will automatically be used for assignments created by this teacher.</div>{% if form.subject.errors %}<div class="text-danger small mt-1">{{ form.subject.errors|striptags }}</div>{% endif %}</div>
+    </div>
+
+    <div id="studentFields" class="role-section">
+      <div class="mb-3"><label class="form-label">Course</label>{{ form.course }}{% if form.course.errors %}<div class="text-danger small mt-1">{{ form.course.errors|striptags }}</div>{% endif %}</div>
+      <div class="mb-3"><label class="form-label">Batch</label>{{ form.batch }}{% if form.batch.errors %}<div class="text-danger small mt-1">{{ form.batch.errors|striptags }}</div>{% endif %}</div>
+      <div class="alert alert-info small">You will receive assignments created for your selected <b>Course + Batch</b>.</div>
+    </div>
+
+    <button class="btn btn-primary w-100">Create Account</button>
+  </form>
+</div>
+<script>
+(function () {
+  const role = document.getElementById('id_role');
+  const teacher = document.getElementById('teacherFields');
+  const student = document.getElementById('studentFields');
+  function toggle() {
+    const isTeacher = role.value === 'TEACHER';
+    teacher.style.display = isTeacher ? 'block' : 'none';
+    student.style.display = isTeacher ? 'none' : 'block';
+  }
+  role.addEventListener('change', toggle);
+  toggle();
+})();
+</script>
+{% endblock %}

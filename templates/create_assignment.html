@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Create Assignment{% endblock %}
+{% block content %}
+<div class="form-card mx-auto">
+  <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
+    <div><h2 class="fw-bold mb-1">Create Assignment</h2><p class="text-muted mb-0">Create one assignment for an entire Course + Batch.</p></div>
+    <span class="badge text-bg-primary fs-6">{{ teacher_profile.get_subject_display }}</span>
+  </div>
+  <div class="alert alert-light border mb-4">
+    <b>Teacher Subject:</b> {{ teacher_profile.get_subject_display }}<br>
+    <small class="text-muted">All students matching the selected course and batch will automatically receive this assignment.</small>
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="mb-3">
+        <label class="form-label">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<div class="text-danger small mt-1">{{ field.errors|striptags }}</div>{% endif %}
+      </div>
+    {% endfor %}
+    <div class="d-flex gap-2">
+      <a href="{% url 'teacher_dashboard' %}" class="btn btn-light">Cancel</a>
+      <button class="btn btn-primary">Create & Assign</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
